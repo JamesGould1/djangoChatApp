@@ -1,4 +1,4 @@
-const roomName = "{{ room_name }}";
+const roomName = window.roomName
 let chatSocket = new WebSocket(
     'ws://' + window.location.hostname + ':8000/ws/chat/' + roomName + '/'
 );
