@@ -15,45 +15,49 @@
 
     <input id="chat-message-input" type="text" placeholder="Type your message here..." />
     <button id="chat-message-input-btn">Send</button>
-    
+
     <script>
-        const roomName = "{{ room_name }}";
-        let username = '';
-        let chatSocket;
+         let chatSocket = new WebSocket(
+            'ws://' + window.location.hostname + ':8000/ws/chat/' + roomName + '/'
+        );
 
-        // Handle setting username
-        document.querySelector('#set-username-btn').onclick = function() {
-            username = document.querySelector('#username-input').value;
-            if (username.trim()) {
-                chatSocket = new WebSocket(
-                    'ws://' + window.location.hostname + ':8000/ws/chat/' + roomName + '/'
-                );
-                chatSocket.onmessage = function(e) {
-                    const data = JSON.parse(e.data);
-                    document.querySelector('#chat-log').innerHTML += 
-                        '<div class="message"><span class="username">' + data['username'] + ':</span><span class="message-text"> ' + data['message'] + '</span></div>';
-                };
-
-                chatSocket.onclose = function(e) {
-                    console.error('Chat socket closed unexpectedly');
-                };
-            } else {
-                alert("Please enter a username!");
-            }
+        // Listen for incoming messages
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#chat-log').innerHTML += 
+                '<div class="message"><span class="username">' + data['username'] + ':</span><span class="message-text"> ' + data['message'] + '</span></div>';
         };
 
-        // Send message on button click
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        // Send message when button is clicked
         document.querySelector('#chat-message-input-btn').onclick = function() {
+            const username = document.querySelector('#username-input').value.trim();
             const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            if (message.trim()) {
+            const message = messageInputDom.value.trim();
+
+            if (!username) {
+                alert("Please enter a username!");
+                return;
+            }
+
+            if (message) {
                 chatSocket.send(JSON.stringify({
                     'username': username,
                     'message': message
                 }));
-                messageInputDom.value = '';
+                messageInputDom.value = ''; // Clear the message input
             }
         };
+
+        // Optional: Allow user to press Enter to send a message
+        document.querySelector('#chat-message-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                document.querySelector('#chat-message-input-btn').click();
+            }
+        });
     </script>
 </body>
 </html>
