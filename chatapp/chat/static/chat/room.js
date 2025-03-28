@@ -13,7 +13,7 @@ chatSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
 };
 
-document.querySelector('#chat-message-input-btn').onclick = function() {
+function sendMessage() {
     const username = document.querySelector('#username-input').value.trim();
     const messageInputDom = document.querySelector('#chat-message-input');
     const message = messageInputDom.value.trim();
@@ -28,6 +28,18 @@ document.querySelector('#chat-message-input-btn').onclick = function() {
             'username': username,
             'message': message
         }));
-        messageInputDom.value = ''; // Clear the message input
+        messageInputDom.value = '';
     }
+}
+
+document.querySelector('#chat-message-input').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the default behavior (new line)
+        sendMessage(); // Send the message
+    }
+});
+
+// Trigger send message function when the Send button is clicked
+document.querySelector('#chat-message-input-btn').onclick = function() {
+    sendMessage();
 };
