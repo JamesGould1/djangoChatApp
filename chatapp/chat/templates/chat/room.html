@@ -2,41 +2,7 @@
 <html>
 <head>
     <title>Chat Room</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        #chat-log {
-            border: 1px solid #ccc;
-            height: 300px;
-            overflow-y: auto;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        #chat-message-input {
-            width: 80%;
-            padding: 10px;
-        }
-
-        #chat-message-input-btn {
-            padding: 10px;
-        }
-
-        .message {
-            margin-bottom: 10px;
-        }
-
-        .username {
-            font-weight: bold;
-        }
-
-        .message-text {
-            margin-left: 10px;
-        }
-
-    </style>
+    <link rel="stylesheet" href="room.css">
 </head>
 <body>
     <h1>Welcome to the Chat Room: {{ room_name }}</h1>
@@ -49,7 +15,7 @@
 
     <input id="chat-message-input" type="text" placeholder="Type your message here..." />
     <button id="chat-message-input-btn">Send</button>
-
+    
     <script>
         const roomName = "{{ room_name }}";
         let username = '';
