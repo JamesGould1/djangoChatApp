@@ -75,6 +75,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "chat/static",  # Static files for the chat app
 ]
 
+STATIC_ROOT = BASE_DIR / "staticfiles"  # This folder will be created by `collectstatic`
+
 
 WSGI_APPLICATION = 'chatapp.wsgi.application'
 
