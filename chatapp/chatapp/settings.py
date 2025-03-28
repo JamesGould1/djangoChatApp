@@ -71,6 +71,10 @@ TEMPLATES = [
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "chat/static",  # Static files for the chat app
+]
+
 
 WSGI_APPLICATION = 'chatapp.wsgi.application'
 
