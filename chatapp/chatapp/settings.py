@@ -69,6 +69,9 @@ TEMPLATES = [
     },
 ]
 
+STATIC_URL = '/static/'
+
+
 WSGI_APPLICATION = 'chatapp.wsgi.application'
 
 
