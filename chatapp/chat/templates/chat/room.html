@@ -2,36 +2,91 @@
 <html>
 <head>
     <title>Chat Room</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #chat-log {
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #chat-message-input {
+            width: 80%;
+            padding: 10px;
+        }
+
+        #chat-message-input-btn {
+            padding: 10px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        .message-text {
+            margin-left: 10px;
+        }
+
+    </style>
 </head>
 <body>
     <h1>Welcome to the Chat Room: {{ room_name }}</h1>
+
+    <!-- Username input field -->
+    <input id="username-input" type="text" placeholder="Enter your username" />
+    <button id="set-username-btn">Set Username</button>
+
     <div id="chat-log"></div>
-    <input id="chat-message-input" type="text" />
+
+    <input id="chat-message-input" type="text" placeholder="Type your message here..." />
     <button id="chat-message-input-btn">Send</button>
 
     <script>
         const roomName = "{{ room_name }}";
-        const chatSocket = new WebSocket(
-            'ws://' + window.location.hostname + ':8000/ws/chat/' + roomName + '/'
-        );
+        let username = '';
+        let chatSocket;
 
+        // Handle setting username
+        document.querySelector('#set-username-btn').onclick = function() {
+            username = document.querySelector('#username-input').value;
+            if (username.trim()) {
+                chatSocket = new WebSocket(
+                    'ws://' + window.location.hostname + ':8000/ws/chat/' + roomName + '/'
+                );
+                chatSocket.onmessage = function(e) {
+                    const data = JSON.parse(e.data);
+                    document.querySelector('#chat-log').innerHTML += 
+                        '<div class="message"><span class="username">' + data['username'] + ':</span><span class="message-text"> ' + data['message'] + '</span></div>';
+                };
 
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').innerHTML += '<br>' + data['message'];
+                chatSocket.onclose = function(e) {
+                    console.error('Chat socket closed unexpectedly');
+                };
+            } else {
+                alert("Please enter a username!");
+            }
         };
 
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        document.querySelector('#chat-message-input-btn').onclick = function(e) {
+        // Send message on button click
+        document.querySelector('#chat-message-input-btn').onclick = function() {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
+            if (message.trim()) {
+                chatSocket.send(JSON.stringify({
+                    'username': username,
+                    'message': message
+                }));
+                messageInputDom.value = '';
+            }
         };
     </script>
 </body>
