@@ -3,6 +3,9 @@
 <head>
     <title>Chat Room</title>
     <link rel="stylesheet" href="room.css">
+    {% load static %}
+    <!-- Link to a common CSS file for all chat rooms -->
+    <link rel="stylesheet" type="text/css" href="{% static 'chat/room.css' %}">
 </head>
 <body>
     <h1>Welcome to the Chat Room: {{ room_name }}</h1>
