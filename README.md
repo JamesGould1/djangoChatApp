@@ -2,4 +2,4 @@
 
 Designed a web chat room app. This uses the Django framework. Using ASGI and WebSockets.
 
-![Recording 2025-03-29 122506 (1)](https://github.com/user-attachments/assets/d382b39a-0ac5-44a5-9225-114b1687856b)
+![Recording 2025-03-29 122506 (2)](https://github.com/user-attachments/assets/1a183dab-8ce9-4663-9af5-874b11a2a80d)
