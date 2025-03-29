@@ -3,22 +3,17 @@
 <head>
     <title>Chat Room: {{ room_name }}</title>
     {% load static %}
-    <!-- Link to a common CSS file for all chat rooms -->
     <link rel="stylesheet" type="text/css" href="{% static 'chat/room.css' %}">
 </head>
 <body>
     <h1>Welcome to the Chat Room: {{ room_name }}</h1>
-    <canvas id="draw-canvas" width="500" height="300"></canvas>
 
-
-    <!-- Username input field -->
     <input id="username-input" type="text" placeholder="Enter your username" />
 
     <div id="chat-log"></div>
 
     <input id="chat-message-input" type="text" placeholder="Type your message here..." />
     <button id="chat-message-input-btn">Send</button>
-    <canvas id="draw-canvas" width="500" height="300"></canvas>
 
 
     <script>

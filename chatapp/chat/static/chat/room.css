@@ -30,19 +30,6 @@ body {
 .message-text {
     margin-left: 10px;
 }
-
-/* Added for better UI */
-#username-input {
-    width: 80%;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-/* Style the canvas */
-#draw-canvas {
-    border: 1px solid black;
-    background-color: #f0f0f0;
-    cursor: crosshair;
-    }
 #chat-log {
     border: 1px solid black;
     height: 200px;
